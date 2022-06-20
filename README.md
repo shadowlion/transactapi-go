@@ -26,7 +26,7 @@ However, you DO NOT need a `clientID` nor `developerAPIKey` from NCPS, as we use
 go get https://github.com/shadowlion/transactapi-go
 ```
 
-## Usage
+## Setup
 
 ```go
 TODO
