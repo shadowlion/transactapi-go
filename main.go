@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -53,9 +54,8 @@ func TransactApiClient(clientId string, developerApiKey string) *BasePayload {
 	return &BasePayload{ClientID: clientId, DeveloperAPIKey: developerApiKey}
 }
 
-func doRequest(req *http.Request) ([]byte, error) {
-	client := &http.Client{}
-	res, err := client.Do(req)
+func postRequest(url string, payload io.Reader) ([]byte, error) {
+	res, err := http.Post(url, "application/json", payload)
 
 	if err != nil {
 		return nil, err
@@ -64,7 +64,11 @@ func doRequest(req *http.Request) ([]byte, error) {
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 
-	if res.StatusCode != 200 {
+	if err != nil {
+		return nil, err
+	}
+
+	if 200 != res.StatusCode {
 		return nil, fmt.Errorf("%s", body)
 	}
 
@@ -72,7 +76,6 @@ func doRequest(req *http.Request) ([]byte, error) {
 }
 
 func GetTradeStatus(payload *GetTradeStatusPayload) (*GetTradeStatusResponse, error) {
-	// client := &http.Client{}
 	url := baseURL + "/getTradeStatus"
 	j, err := json.Marshal(payload)
 
@@ -80,22 +83,14 @@ func GetTradeStatus(payload *GetTradeStatusPayload) (*GetTradeStatusResponse, er
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(j))
-
-	fmt.Println(req)
-
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := doRequest(req)
+	res, err := postRequest(url, bytes.NewBuffer(j))
 
 	if err != nil {
 		return nil, err
 	}
 
 	var data GetTradeStatusResponse
-	err = json.Unmarshal(body, &data)
+	err = json.Unmarshal(res, &data)
 
 	if err != nil {
 		return nil, err
