@@ -42,10 +42,11 @@ type TradeDetail struct {
 
 func (c *client) GetTradeStatus(tradeId string) (*GetTradeStatusResponse, error) {
 	payload := GetTradeStatusPayload{
-		ClientID:        c.ClientID,
-		DeveloperAPIKey: c.DeveloperApiKey,
+		ClientID:        c.clientID,
+		DeveloperAPIKey: c.developerApiKey,
 		TradeID:         tradeId,
 	}
+
 	jsonData, err := json.Marshal(payload)
 
 	if err != nil {
@@ -57,22 +58,14 @@ func (c *client) GetTradeStatus(tradeId string) (*GetTradeStatusResponse, error)
 		c.baseURL+"/getTradeStatus",
 		bytes.NewBuffer(jsonData),
 	)
-	req.Header.Set("Content-Type", "application/json")
 
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := c.sendRequest(req)
+	var fullResponse GetTradeStatusResponse
 
-	if err != nil {
-		return nil, err
-	}
-
-	fullResponse := GetTradeStatusResponse{}
-	decodeError := json.NewDecoder(res.Body).Decode(&fullResponse)
-
-	if decodeError != nil {
+	if err := c.sendRequest(req, &fullResponse); err != nil {
 		return nil, err
 	}
 
