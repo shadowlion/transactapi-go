@@ -1,13 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/shadowlion/transactapi-go/transactapi"
+)
 
 func main() {
 	clientID := ""
 	developerAPIKey := ""
 	sandbox := false
 
-	client := New(clientID, developerAPIKey, sandbox)
+	client := transactapi.New(clientID, developerAPIKey, sandbox)
 
 	tradeId := ""
 	resp, err := client.GetTradeStatus(tradeId)
