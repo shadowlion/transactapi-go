@@ -54,7 +54,7 @@ func (c *client) GetTradeStatus(tradeId string) (*GetTradeStatusResponse, error)
 	}
 
 	req, err := http.NewRequest(
-		"POST",
+		http.MethodPost,
 		c.baseURL+"/getTradeStatus",
 		bytes.NewBuffer(jsonData),
 	)
