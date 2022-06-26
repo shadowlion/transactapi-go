@@ -24,17 +24,19 @@ type errorResponse struct {
 	StatusDescription string `json:"statusDesc"`
 }
 
-func New(clientId string, developerApiKey string, sandbox bool) *client {
-	var url string
-
+func BaseUrl(sandbox bool) string {
+	var p string
 	if sandbox {
-		url = "https://api-sandboxdash.norcapsecurities.com/tapiv3/index.php/v3"
+		p = "api-sandboxdash"
 	} else {
-		url = "https://api.norcapsecurities.com/tapiv3/index.php/v3"
+		p = "api"
 	}
+	return fmt.Sprintf("https://%s.norcapsecurities.com/tapiv3/index.php/v3", p)
+}
 
+func New(clientId string, developerApiKey string, sandbox bool) *client {
 	return &client{
-		baseURL:         url,
+		baseURL:         BaseUrl(sandbox),
 		clientID:        clientId,
 		developerApiKey: developerApiKey,
 		HttpClient:      &http.Client{},
