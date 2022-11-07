@@ -14,12 +14,12 @@ type client struct {
 	developerApiKey string
 }
 
-type successResponse struct {
-	StatusCode        string `json:"statusCode"`
-	StatusDescription string `json:"statusDesc"`
+type basePayload struct {
+	ClientID        string `json:"clientID"`
+	DeveloperApiKey string `json:"developerAPIKey"`
 }
 
-type errorResponse struct {
+type baseResponse struct {
 	StatusCode        string `json:"statusCode"`
 	StatusDescription string `json:"statusDesc"`
 }
@@ -55,7 +55,7 @@ func (c *client) sendRequest(req *http.Request, v interface{}) error {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		var errRes errorResponse
+		var errRes baseResponse
 
 		if err = json.NewDecoder(res.Body).Decode(&errRes); err != nil {
 			return errors.New(errRes.StatusDescription)
