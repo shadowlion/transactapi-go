@@ -7,7 +7,8 @@ import (
 )
 
 type CreatePartyPayload struct {
-	basePayload
+	ClientID        string `json:"clientID"`
+	DeveloperAPIKey string `json:"developerAPIKey"`
 	DateOfBirth     string `json:"dob"`
 	Domicile        string `json:"domicile"`
 	EmailAddress    string `json:"emailAddress"`
@@ -22,8 +23,9 @@ type CreatePartyPayload struct {
 }
 
 type CreatePartyResponse struct {
-	baseResponse
-	PartyDetails []CreatePartyPartyDetail `json:"accountDetails"`
+	StatusCode        string                   `json:"statusCode"`
+	StatusDescription string                   `json:"statusDesc"`
+	PartyDetails      []CreatePartyPartyDetail `json:"accountDetails"`
 }
 
 type CreatePartyPartyDetail struct {

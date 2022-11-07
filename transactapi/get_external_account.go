@@ -7,9 +7,10 @@ import (
 )
 
 type GetExternalAccountPayload struct {
-	basePayload
-	Types     string `json:"types"`
-	AccountID string `json:"accountId"`
+	ClientID        string `json:"clientID"`
+	DeveloperApiKey string `json:"developerAPIKey"`
+	Types           string `json:"types"`
+	AccountID       string `json:"accountId"`
 }
 
 type GetExternalAccountResponse struct {
