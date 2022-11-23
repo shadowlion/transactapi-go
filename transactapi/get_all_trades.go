@@ -1,17 +1,15 @@
 package transactapi
 
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 )
 
-type GetAllTradesPayload struct {
+type getAllTradesPayload struct {
 	ClientID        string `json:"clientID"`
 	DeveloperAPIKey string `json:"developerAPIKey"`
 }
 
-type TradeFinancialDetail struct {
+type tradeFinancialDetail struct {
 	Id              string `json:"id"`
 	CreatedDate     string `json:"createdDate"`
 	AccountId       string `json:"accountId"`
@@ -32,41 +30,29 @@ type TradeFinancialDetail struct {
 	Field1          string `json:"field1"`
 }
 
-type GetAllTradesResponse struct {
+type getAllTradesResponse struct {
 	StatusCode            string `json:"statusCode"`
 	StatusDesc            string `json:"statusDesc"`
-	TradeFinancialDetails []TradeFinancialDetail
+	TradeFinancialDetails []tradeFinancialDetail
 }
 
-func (c *client) GetAllTrades() (*GetAllTradesResponse, error) {
+func (c *client) GetAllTrades() (*getAllTradesResponse, *errorResponse, error) {
+	method := http.MethodPost
 	endpoint := "/getAllTrades"
-
-	payload := GetAllTradesPayload{
+	payload := getAllTradesPayload{
 		ClientID:        c.clientID,
 		DeveloperAPIKey: c.developerApiKey,
 	}
-
-	jsonData, err := json.Marshal(payload)
-
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(
-		http.MethodPost,
-		c.baseURL+endpoint,
-		bytes.NewBuffer(jsonData),
-	)
+	var res getAllTradesResponse
+	errRes, err := c.request(method, endpoint, payload, &res)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	var fullResponse GetAllTradesResponse
-
-	if err := c.sendRequest(req, &fullResponse); err != nil {
-		return nil, err
+	if errRes != nil {
+		return nil, errRes, nil
 	}
 
-	return &fullResponse, nil
+	return &res, nil, nil
 }

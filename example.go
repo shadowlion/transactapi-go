@@ -14,7 +14,7 @@ func main() {
 	client := transactapi.New(clientID, developerAPIKey, sandbox)
 
 	tradeId := ""
-	resp, err := client.GetTradeStatus(tradeId)
+	resp, _, err := client.GetTradeStatus(tradeId)
 
 	if err != nil {
 		fmt.Println(err)

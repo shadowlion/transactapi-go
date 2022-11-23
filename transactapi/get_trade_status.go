@@ -1,24 +1,22 @@
 package transactapi
 
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 )
 
-type GetTradeStatusPayload struct {
+type getTradeStatusPayload struct {
 	ClientID        string `json:"clientID"`
 	DeveloperAPIKey string `json:"developerAPIKey"`
 	TradeID         string `json:"tradeId"`
 }
 
-type GetTradeStatusResponse struct {
+type getTradeStatusResponse struct {
 	StatusCode   string        `json:"statusCode"`
 	StatusDesc   string        `json:"statusDesc"`
-	TradeDetails []TradeDetail `json:"tradeDetails"`
+	TradeDetails []tradeDetail `json:"tradeDetails"`
 }
 
-type TradeDetail struct {
+type tradeDetail struct {
 	ID               string `json:"id"`
 	DeveloperAPIKey  string `json:"developerAPIKey"`
 	OfferingID       string `json:"offeringId"`
@@ -40,34 +38,24 @@ type TradeDetail struct {
 	ArchivedStatus   string `json:"archived_status"`
 }
 
-func (c *client) GetTradeStatus(tradeId string) (*GetTradeStatusResponse, error) {
-	payload := GetTradeStatusPayload{
+func (c *client) GetTradeStatus(tradeId string) (*getTradeStatusResponse, *errorResponse, error) {
+	method := http.MethodPost
+	endpoint := "/getTradeStatus"
+	payload := getTradePayload{
 		ClientID:        c.clientID,
 		DeveloperAPIKey: c.developerApiKey,
 		TradeID:         tradeId,
 	}
-
-	jsonData, err := json.Marshal(payload)
-
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(
-		http.MethodPost,
-		c.baseURL+"/getTradeStatus",
-		bytes.NewBuffer(jsonData),
-	)
+	var res getTradeStatusResponse
+	errRes, err := c.request(method, endpoint, payload, &res)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	var fullResponse GetTradeStatusResponse
-
-	if err := c.sendRequest(req, &fullResponse); err != nil {
-		return nil, err
+	if errRes != nil {
+		return nil, errRes, nil
 	}
 
-	return &fullResponse, nil
+	return &res, nil, nil
 }

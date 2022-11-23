@@ -1,24 +1,22 @@
 package transactapi
 
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 )
 
-type GetAccountPayload struct {
+type getAccountPayload struct {
 	ClientID        string `json:"clientID"`
 	DeveloperAPIKey string `json:"developerAPIKey"`
 	AccountID       string `json:"accountId"`
 }
 
-type GetAccountResponse struct {
+type getAccountResponse struct {
 	StatusCode     string          `json:"statusCode"`
 	StatusDesc     string          `json:"statusDesc"`
-	AccountDetails []AccountDetail `json:"accountDetails"`
+	AccountDetails []accountDetail `json:"accountDetails"`
 }
 
-type AccountDetail struct {
+type accountDetail struct {
 	AccountID              string `json:"accountId"`
 	AccountName            string `json:"accountName"`
 	Type                   string `json:"type"`
@@ -57,34 +55,24 @@ type AccountDetail struct {
 	Field3                 string `json:"field3"`
 }
 
-func (c *client) GetAccount(accountId string) (*GetAccountResponse, error) {
-	payload := GetAccountPayload{
+func (c *client) GetAccount(accountId string) (*getAccountResponse, *errorResponse, error) {
+	method := http.MethodPost
+	endpoint := "/getAccount"
+	payload := getAccountPayload{
 		ClientID:        c.clientID,
 		DeveloperAPIKey: c.developerApiKey,
 		AccountID:       accountId,
 	}
-
-	jsonData, err := json.Marshal(payload)
-
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(
-		http.MethodPost,
-		c.baseURL+"/getAccount",
-		bytes.NewBuffer(jsonData),
-	)
+	var res getAccountResponse
+	errRes, err := c.request(method, endpoint, payload, &res)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	var fullResponse GetAccountResponse
-
-	if err := c.sendRequest(req, &fullResponse); err != nil {
-		return nil, err
+	if errRes != nil {
+		return nil, errRes, nil
 	}
 
-	return &fullResponse, nil
+	return &res, nil, nil
 }

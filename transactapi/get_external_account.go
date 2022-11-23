@@ -1,25 +1,23 @@
 package transactapi
 
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 )
 
-type GetExternalAccountPayload struct {
+type getExternalAccountPayload struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
 	Types           string `json:"types"`
 	AccountID       string `json:"accountId"`
 }
 
-type GetExternalAccountResponse struct {
+type getExternalAccountResponse struct {
 	StatusCode string     `json:"statusCode"`
 	AccountID  string     `json:"accountId"`
-	StatusDesc StatusDesc `json:"statusDesc"`
+	StatusDesc statusDesc `json:"statusDesc"`
 }
 
-type StatusDesc struct {
+type statusDesc struct {
 	AccountName          string `json:"AccountName"`
 	AccountNickName      string `json:"AccountNickName"`
 	AccountRoutingNumber string `json:"AccountRoutingNumber"`
@@ -29,28 +27,24 @@ type StatusDesc struct {
 	CreatedDate          string `json:"createdDate"`
 }
 
-func (c *client) GetExternalAccount(p GetExternalAccountPayload) (*GetExternalAccountResponse, error) {
-	jsonData, err := json.Marshal(p)
+func (c *client) GetExternalAccount(accountId string) (*getExternalAccountResponse, *errorResponse, error) {
+	method := http.MethodPost
+	endpoint := "/getExternalAccount"
+	payload := getExternalAccountPayload{
+		ClientID:        c.clientID,
+		DeveloperApiKey: c.developerApiKey,
+		AccountID:       accountId,
+	}
+	var res getExternalAccountResponse
+	errRes, err := c.request(method, endpoint, payload, &res)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	req, err := http.NewRequest(
-		http.MethodPost,
-		c.baseURL+"/getExternalAccount",
-		bytes.NewBuffer(jsonData),
-	)
-
-	if err != nil {
-		return nil, err
+	if errRes != nil {
+		return nil, errRes, nil
 	}
 
-	var fullResponse GetExternalAccountResponse
-
-	if err := c.sendRequest(req, &fullResponse); err != nil {
-		return nil, err
-	}
-
-	return &fullResponse, nil
+	return &res, nil, nil
 }

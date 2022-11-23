@@ -1,24 +1,22 @@
 package transactapi
 
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 )
 
-type GetOfferingPayload struct {
+type getOfferingPayload struct {
 	ClientID        string `json:"clientID"`
 	DeveloperAPIKey string `json:"developerAPIKey"`
 	OfferingID      string `json:"offeringId"`
 }
 
-type GetOfferingResponse struct {
+type getOfferingResponse struct {
 	StatusCode      string           `json:"statusCode"`
 	StatusDesc      string           `json:"statusDesc"`
-	OfferingDetails []OfferingDetail `json:"offeringDetails"`
+	OfferingDetails []offeringDetail `json:"offeringDetails"`
 }
 
-type OfferingDetail struct {
+type offeringDetail struct {
 	IssuerID        string `json:"issuerId"`
 	OfferingID      string `json:"offeringId"`
 	IssueName       string `json:"issueName"`
@@ -36,34 +34,24 @@ type OfferingDetail struct {
 	StampingText    string `json:"stampingText"`
 }
 
-func (c *client) GetOffering(offeringId string) (*GetOfferingResponse, error) {
-	payload := GetOfferingPayload{
+func (c *client) GetOffering(offeringId string) (*getOfferingResponse, *errorResponse, error) {
+	method := http.MethodPost
+	endpoint := "/getOffering"
+	payload := getOfferingPayload{
 		ClientID:        c.clientID,
 		DeveloperAPIKey: c.developerApiKey,
 		OfferingID:      offeringId,
 	}
-
-	jsonData, err := json.Marshal(payload)
-
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(
-		http.MethodPost,
-		c.baseURL+"/getOffering",
-		bytes.NewBuffer(jsonData),
-	)
+	var res getOfferingResponse
+	errRes, err := c.request(method, endpoint, payload, &res)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	var fullResponse GetOfferingResponse
-
-	if err := c.sendRequest(req, &fullResponse); err != nil {
-		return nil, err
+	if errRes != nil {
+		return nil, errRes, nil
 	}
 
-	return &fullResponse, nil
+	return &res, nil, nil
 }

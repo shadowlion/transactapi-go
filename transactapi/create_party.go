@@ -1,12 +1,10 @@
 package transactapi
 
 import (
-	"bytes"
-	"encoding/json"
 	"net/http"
 )
 
-type CreatePartyPayload struct {
+type createPartyPayload struct {
 	ClientID        string `json:"clientID"`
 	DeveloperAPIKey string `json:"developerAPIKey"`
 	DateOfBirth     string `json:"dob"`
@@ -22,40 +20,32 @@ type CreatePartyPayload struct {
 	PrimaryZip      string `json:"primZip"`
 }
 
-type CreatePartyResponse struct {
+type createPartyResponse struct {
 	StatusCode        string                   `json:"statusCode"`
 	StatusDescription string                   `json:"statusDesc"`
-	PartyDetails      []CreatePartyPartyDetail `json:"accountDetails"`
+	PartyDetails      []createPartyPartyDetail `json:"accountDetails"`
 }
 
-type CreatePartyPartyDetail struct {
+type createPartyPartyDetail struct {
 	PartyID   string `json:"partyId"`
 	KycStatus string `json:"KYCstatus"`
 	AmlStatus string `json:"AMLstatus"`
 }
 
-func (c *client) CreateParty(p CreatePartyPayload) (*CreatePartyResponse, error) {
-	jsonData, err := json.Marshal(p)
+func (c *client) CreateParty(payload createPartyPayload) (*createPartyResponse, *errorResponse, error) {
+	method := http.MethodPost
+	endpoint := "/createParty"
+	// payload := createPartyPayload{}
+	var res createPartyResponse
+	errRes, err := c.request(method, endpoint, payload, &res)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	req, err := http.NewRequest(
-		http.MethodPost,
-		c.baseURL+"/createParty",
-		bytes.NewBuffer(jsonData),
-	)
-
-	if err != nil {
-		return nil, err
+	if errRes != nil {
+		return nil, errRes, nil
 	}
 
-	var fullResponse CreatePartyResponse
-
-	if err := c.sendRequest(req, &fullResponse); err != nil {
-		return nil, err
-	}
-
-	return &fullResponse, nil
+	return &res, nil, nil
 }
