@@ -11,12 +11,12 @@ type getAccountPayload struct {
 }
 
 type getAccountResponse struct {
-	StatusCode     string          `json:"statusCode"`
-	StatusDesc     string          `json:"statusDesc"`
-	AccountDetails []accountDetail `json:"accountDetails"`
+	StatusCode     string                    `json:"statusCode"`
+	StatusDesc     string                    `json:"statusDesc"`
+	AccountDetails []getAccountAccountDetail `json:"accountDetails"`
 }
 
-type accountDetail struct {
+type getAccountAccountDetail struct {
 	AccountID              string `json:"accountId"`
 	AccountName            string `json:"accountName"`
 	Type                   string `json:"type"`
