@@ -8,17 +8,17 @@ import (
 
 type Client struct {
 	HttpClient      *http.Client
-	Sandbox         bool
 	ClientID        string
 	DeveloperAPIKey string
+	Sandbox         bool
 }
 
-func New(sandbox bool, clientId, developerApiKey string) *Client {
+func New(clientId, developerApiKey string, sandbox bool) *Client {
 	return &Client{
 		HttpClient:      &http.Client{},
-		Sandbox:         sandbox,
 		ClientID:        clientId,
 		DeveloperAPIKey: developerApiKey,
+		Sandbox:         sandbox,
 	}
 }
 
