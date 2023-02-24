@@ -32,4 +32,6 @@ func TestGetCreditCardTypeSuccess(t *testing.T) {
 
 // TestGetCreditCardTypeFailed calls utils.GetCreditCardType with a card number, checking
 // for a valid return value.
-func TestGetCreditCardTypeFailed(t *testing.T) {}
+func TestGetCreditCardTypeFailed(t *testing.T) {
+	t.Fatalf("Unimplemented.")
+}
