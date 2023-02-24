@@ -23,7 +23,7 @@ func (c *Client) baseUrl() string {
 }
 
 // Function basePostRequest will run a generic http post request.
-func basePostRequest[Request, Response any](c *Client, endpoint string, req *Request) Response {
+func basePostRequest[Response any](c *Client, endpoint string, req interface{}) Response {
 	var res Response
 
 	b, err := json.Marshal(req)
