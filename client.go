@@ -29,3 +29,7 @@ func (c *Client) AddCreditCard(req endpoints.AddCreditCardRequest) endpoints.Add
 func (c *Client) ValidateABARoutingNumber(req endpoints.ValidateAbaRoutingNumberRequest) endpoints.ValidateAbaRoutingNumberResponse {
 	return basePostRequest[endpoints.ValidateAbaRoutingNumberRequest, endpoints.ValidateAbaRoutingNumberResponse](c, "/validateABARoutingNumber", &req)
 }
+
+func (c *Client) CCFundMove(req endpoints.CCFundMoveRequest) endpoints.CCFundMoveResponse {
+	return basePostRequest[endpoints.CCFundMoveRequest, endpoints.CCFundMoveResponse](c, "/ccFundMove", &req)
+}
