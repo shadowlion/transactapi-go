@@ -38,3 +38,13 @@ func (c *Client) CCFundMove(req endpoints.CCFundMoveRequest) endpoints.CCFundMov
 func (c *Client) CreateAccount(req endpoints.CreateAccountRequest) endpoints.CreateAccountResponse {
 	return basePostRequest[endpoints.CreateAccountResponse](c, "/createAccount", &req)
 }
+
+// This method is used to create a trade/investment for an offering. This requires Account ID and
+// the total number of units/shares to be purchased by the account. Creating a trade represents the
+// intention to invest and does NOT initiate any sort of fund move. To initiate an ACH transfer for
+// a trade, you will need to use the externalFundMove method.
+//
+// Reference: https://transactapi.readme.io/reference/createtrade
+func (c *Client) CreateTrade(req endpoints.CreateTradeRequest) endpoints.CreateTradeResponse {
+	return basePostRequest[endpoints.CreateTradeResponse](c, "/createTrade", &req)
+}
