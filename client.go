@@ -51,3 +51,11 @@ func (c *Client) ValidateABARoutingNumber(req endpoints.ValidateAbaRoutingNumber
 func (c *Client) CCFundMove(req endpoints.CCFundMoveRequest) endpoints.CCFundMoveResponse {
 	return basePostRequest[endpoints.CCFundMoveResponse](c, "/ccFundMove", &req)
 }
+
+// This method is used to create an account that can be linked (createLink) to an individual party
+// (createParty) or an entity (createEntity).
+//
+// Reference: https://transactapi.readme.io/reference/createaccount
+func (c *Client) CreateAccount(req endpoints.CreateAccountRequest) endpoints.CreateAccountResponse {
+	return basePostRequest[endpoints.CreateAccountResponse](c, "/createAccount", &req)
+}
