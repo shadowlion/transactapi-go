@@ -48,3 +48,8 @@ func (c *Client) CreateAccount(req endpoints.CreateAccountRequest) endpoints.Cre
 func (c *Client) CreateTrade(req endpoints.CreateTradeRequest) endpoints.CreateTradeResponse {
 	return basePostRequest[endpoints.CreateTradeResponse](c, "/createTrade", &req)
 }
+
+// Reference: https://transactapi.readme.io/reference/externalfundmove
+func (c *Client) ExternalFundMove(req endpoints.ExternalFundMoveRequest) endpoints.ExternalFundMoveResponse {
+	return basePostRequest[endpoints.ExternalFundMoveResponse](c, "/externalFundMove", &req)
+}
