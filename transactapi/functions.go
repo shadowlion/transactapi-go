@@ -1,27 +1,6 @@
 package transactapi
 
-import (
-	"net/http"
-
-	"github.com/shadowlion/transactapi-go/endpoints"
-)
-
-type Client struct {
-	HttpClient      *http.Client
-	ClientID        string
-	DeveloperAPIKey string
-	Sandbox         bool
-}
-
-// Create a new instance of the Transact API client struct
-func New(clientId, developerApiKey string, sandbox bool) *Client {
-	return &Client{
-		HttpClient:      &http.Client{},
-		ClientID:        clientId,
-		DeveloperAPIKey: developerApiKey,
-		Sandbox:         sandbox,
-	}
-}
+import "github.com/shadowlion/transactapi-go/endpoints"
 
 // This method is used to save a credit card to an Account (createAccount). Only one credit card
 // can be added for an account.
