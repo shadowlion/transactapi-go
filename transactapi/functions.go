@@ -10,14 +10,6 @@ func (c *Client) AddCreditCard(req endpoints.AddCreditCardRequest) endpoints.Add
 	return basePostRequest[endpoints.AddCreditCardResponse](c, "/addCreditCard", &req)
 }
 
-// This method is used to validate the routing number for an external account
-// (createExternalAccount)
-//
-// Reference: https://transactapi.readme.io/reference/validateabaroutingnumber
-func (c *Client) ValidateABARoutingNumber(req endpoints.ValidateAbaRoutingNumberRequest) endpoints.ValidateAbaRoutingNumberResponse {
-	return basePostRequest[endpoints.ValidateAbaRoutingNumberResponse](c, "/validateABARoutingNumber", &req)
-}
-
 // Online Credit Card Transaction
 //
 // This Method has third party fees associated with it that will be charged for each use. This
@@ -59,4 +51,99 @@ func (c *Client) ExternalFundMove(req endpoints.ExternalFundMoveRequest) endpoin
 // Reference: https://transactapi.readme.io/reference/getaccount
 func (c *Client) GetAccount(req endpoints.GetAccountRequest) endpoints.GetAccountResponse {
 	return basePostRequest[endpoints.GetAccountResponse](c, "/getAccount", &req)
+}
+
+// This method is used to retrieve the credit card information that was previously saved to a
+// specific account.
+//
+// Reference: https://transactapi.readme.io/reference/getcreditcard
+func (c *Client) GetCreditCard(req endpoints.GetCreditCardRequest) endpoints.GetCreditCardResponse {
+	return basePostRequest[endpoints.GetCreditCardResponse](c, "/getCreditCard", &req)
+}
+
+// Reference: https://transactapi.readme.io/reference/getexternalaccount
+func (c *Client) GetExternalAccount(req endpoints.GetExternalAccountRequest) endpoints.GetExternalAccountResponse {
+	return basePostRequest[endpoints.GetExternalAccountResponse](c, "/getExternalAccount", &req)
+}
+
+// This method is used to get all the details of an offering. The Offering ID is required to get
+// the information.
+//
+// Reference: https://transactapi.readme.io/reference/getoffering
+func (c *Client) GetOffering(req endpoints.GetOfferingRequest) endpoints.GetOfferingResponse {
+	return basePostRequest[endpoints.GetOfferingResponse](c, "/getOffering", &req)
+}
+
+// This method is used to get all information about an individual Party. The Party ID must be
+// specified as a request parameter to get the party information.
+//
+// Reference: https://transactapi.readme.io/reference/getparty
+func (c *Client) GetParty(req endpoints.GetPartyRequest) endpoints.GetPartyResponse {
+	return basePostRequest[endpoints.GetPartyResponse](c, "/getParty", &req)
+}
+
+// Reference: https://transactapi.readme.io/reference/gettradedocument
+func (c *Client) GetTradeDocument(req endpoints.GetTradeDocumentRequest) endpoints.GetTradeDocumentResponse {
+	return basePostRequest[endpoints.GetTradeDocumentResponse](c, "/getTradeDocument", &req)
+}
+
+// This method is used to get the current trade details as an array with the current trade status.
+//
+// Reference: https://transactapi.readme.io/reference/gettradestatus
+func (c *Client) GetTradeStatus(req endpoints.GetTradeStatusRequest) endpoints.GetTradeStatusResponse {
+	return basePostRequest[endpoints.GetTradeStatusResponse](c, "/getTradeStatus", &req)
+}
+
+// Returns an array of trade IDs and current trade statuses associated with a specific Offering ID.
+//
+// Reference: https://transactapi.readme.io/reference/gettradestatusesforoffering
+func (c *Client) GetTradeStatusesForOffering(req endpoints.GetTradeStatusesForOfferingRequest) endpoints.GetTradeStatusesForOfferingResponse {
+	return basePostRequest[endpoints.GetTradeStatusesForOfferingResponse](c, "/getTradeStatusesForOffering", &req)
+}
+
+// This method is used to retrieve the history of all trades (and details of the trades) created
+// for an offering. The Offering ID is required as a request parameter to fetch the purchase
+// history.
+//
+// Reference: https://transactapi.readme.io/reference/gettradesforoffering
+func (c *Client) GetTradesForOffering(req endpoints.GetTradesForOfferingRequest) endpoints.GetTradesForOfferingResponse {
+	return basePostRequest[endpoints.GetTradesForOfferingResponse](c, "/getTradesForOffering", &req)
+}
+
+// This method is used to update a specific account (updateAccount)
+//
+// Reference: https://transactapi.readme.io/reference/updateaccount
+func (c *Client) UpdateAccount(req endpoints.UpdateAccountRequest) endpoints.UpdateAccountResponse {
+	return basePutRequest[endpoints.UpdateAccountResponse](c, "/updateAccount", &req)
+}
+
+// This method is used to update the credit card information that is saved to a specific account
+// (createExternalAccount).
+//
+// Reference: https://transactapi.readme.io/reference/updatecreditcard
+func (c *Client) UpdateCreditCard(req endpoints.UpdateCreditCardRequest) endpoints.UpdateCreditCardResponse {
+	return basePostRequest[endpoints.UpdateCreditCardResponse](c, "/updateCreditCard", &req)
+}
+
+// This method is used to update fields related to a particular external account for an Account
+// (createAccount). The Account ID must be specified as a request parameter to update the record.
+//
+// Reference: https://transactapi.readme.io/reference/updateexternalaccount
+func (c *Client) UpdateExternalAccount(req endpoints.UpdateExternalAccountRequest) endpoints.UpdateExternalAccountResponse {
+	return basePostRequest[endpoints.UpdateExternalAccountResponse](c, "/updateExternalAccount", &req)
+}
+
+// Update trade transaction type
+//
+// Reference: https://transactapi.readme.io/reference/updatetradetransactiontype
+func (c *Client) UpdateTradeTransactionType(req endpoints.UpdateTradeTransactionTypeRequest) endpoints.UpdateTradeTransactionTypeResponse {
+	return basePostRequest[endpoints.UpdateTradeTransactionTypeResponse](c, "/updateTradeTransactionType", &req)
+}
+
+// This method is used to validate the routing number for an external account
+// (createExternalAccount)
+//
+// Reference: https://transactapi.readme.io/reference/validateabaroutingnumber
+func (c *Client) ValidateABARoutingNumber(req endpoints.ValidateAbaRoutingNumberRequest) endpoints.ValidateAbaRoutingNumberResponse {
+	return basePostRequest[endpoints.ValidateAbaRoutingNumberResponse](c, "/validateABARoutingNumber", &req)
 }
