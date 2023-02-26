@@ -31,6 +31,15 @@ func (c *Client) CreateAccount(req endpoints.CreateAccountRequest) endpoints.Cre
 	return basePostRequest[endpoints.CreateAccountResponse](c, "/createAccount", &req)
 }
 
+// This method is used to add information to an Account (createAccount) for an external bank
+// account which an ACH transfer can be initiated from. Only one external account can be created
+// for an account. External accounts can have funds debited from them (externalFundMove).
+//
+// Reference: https://transactapi.readme.io/reference/createexternalaccount
+func (c *Client) CreateExternalAccount(req endpoints.CreateExternalAccountRequest) endpoints.CreateExternalAccountResponse {
+	return basePostRequest[endpoints.CreateExternalAccountResponse](c, "/createExternalAccount", &req)
+}
+
 // This method is used to create a trade/investment for an offering. This requires Account ID and
 // the total number of units/shares to be purchased by the account. Creating a trade represents the
 // intention to invest and does NOT initiate any sort of fund move. To initiate an ACH transfer for
