@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type ExternalFundMoveRequest struct {
 	ClientID         string `json:"clientID"`
@@ -26,4 +26,9 @@ type tradeFinancialDetail struct {
 	TotalAmount string `json:"totalAmount"`
 	RefNum      string `json:"RefNum"`
 	FundStatus  string `json:"fundStatus"`
+}
+
+// Reference: https://transactapi.readme.io/reference/externalfundmove
+func (c *Client) ExternalFundMove(req ExternalFundMoveRequest) (ExternalFundMoveResponse, error) {
+	return PostRequest[ExternalFundMoveResponse](c.ctx, "/externalFundMove", &req)
 }

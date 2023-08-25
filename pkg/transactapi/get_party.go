@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetPartyRequest struct {
 	ClientID        string `json:"clientID"`
@@ -51,4 +51,12 @@ type partyDetail struct {
 	Field1                 string `json:"field1"`
 	Field2                 string `json:"field2"`
 	Field3                 string `json:"field3"`
+}
+
+// This method is used to get all information about an individual Party. The Party ID must be
+// specified as a request parameter to get the party information.
+//
+// Reference: https://transactapi.readme.io/reference/getparty
+func (c *Client) GetParty(req GetPartyRequest) (GetPartyResponse, error) {
+	return PostRequest[GetPartyResponse](c.ctx, "/getParty", &req)
 }

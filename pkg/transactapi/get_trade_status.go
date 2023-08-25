@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetTradeStatusRequest struct {
 	ClientID        string `json:"clientID"`
@@ -35,4 +35,11 @@ type tradeDetail struct {
 	Field1           string      `json:"field1"`
 	Field2           string      `json:"field2"`
 	Field3           string      `json:"field3"`
+}
+
+// This method is used to get the current trade details as an array with the current trade status.
+//
+// Reference: https://transactapi.readme.io/reference/gettradestatus
+func (c *Client) GetTradeStatus(req GetTradeStatusRequest) (GetTradeStatusResponse, error) {
+	return PostRequest[GetTradeStatusResponse](c.ctx, "/getTradeStatus", &req)
 }

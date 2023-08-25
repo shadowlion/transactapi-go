@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetTradesForOfferingRequest struct {
 	ClientID        string `json:"clientID"`
@@ -23,4 +23,13 @@ type offeringPurchaseHistory struct {
 	OfferingTotalShares string `json:"offeringTotalShares"`
 	TargetAmount        string `json:"targetAmount"`
 	RemainingShares     string `json:"remainingShares"`
+}
+
+// This method is used to retrieve the history of all trades (and details of the trades) created
+// for an offering. The Offering ID is required as a request parameter to fetch the purchase
+// history.
+//
+// Reference: https://transactapi.readme.io/reference/gettradesforoffering
+func (c *Client) GetTradesForOffering(req GetTradesForOfferingRequest) (GetTradesForOfferingResponse, error) {
+	return PostRequest[GetTradesForOfferingResponse](c.ctx, "/getTradesForOffering", &req)
 }

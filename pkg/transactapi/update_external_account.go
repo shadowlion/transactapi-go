@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type UpdateExternalAccountRequest struct {
 	ClientID           string `json:"clientID"`
@@ -31,4 +31,12 @@ type accountDetailClass struct {
 type accountDetailUnion struct {
 	AccountDetailClassArray []accountDetailClass
 	Bool                    *bool
+}
+
+// This method is used to update fields related to a particular external account for an Account
+// (createAccount). The Account ID must be specified as a request parameter to update the record.
+//
+// Reference: https://transactapi.readme.io/reference/updateexternalaccount
+func (c *Client) UpdateExternalAccount(req UpdateExternalAccountRequest) (UpdateExternalAccountResponse, error) {
+	return PostRequest[UpdateExternalAccountResponse](c.ctx, "/updateExternalAccount", &req)
 }

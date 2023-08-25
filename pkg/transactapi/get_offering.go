@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetOfferingRequest struct {
 	ClientID        string `json:"clientID"`
@@ -32,4 +32,12 @@ type offeringDetail struct {
 	Field1              string `json:"field1"`
 	Field2              string `json:"field2"`
 	Field3              string `json:"field3"`
+}
+
+// This method is used to get all the details of an offering. The Offering ID is required to get
+// the information.
+//
+// Reference: https://transactapi.readme.io/reference/getoffering
+func (c *Client) GetOffering(req GetOfferingRequest) (GetOfferingResponse, error) {
+	return PostRequest[GetOfferingResponse](c.ctx, "/getOffering", &req)
 }

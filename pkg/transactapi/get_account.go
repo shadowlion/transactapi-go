@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetAccountRequest struct {
 	ClientID        string `json:"clientID"`
@@ -50,4 +50,11 @@ type accountDetails struct {
 	Field1                 string `json:"field1"`
 	Field2                 string `json:"field2"`
 	Field3                 string `json:"field3"`
+}
+
+// This method is used to get all information for an account (createAccount).
+//
+// Reference: https://transactapi.readme.io/reference/getaccount
+func (c *Client) GetAccount(req GetAccountRequest) (GetAccountResponse, error) {
+	return PostRequest[GetAccountResponse](c.ctx, "/getAccount", &req)
 }

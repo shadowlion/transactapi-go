@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type CreateAccountRequest struct {
 	ClientID              string `json:"clientID"`
@@ -48,4 +48,12 @@ type CreateAccountResponse struct {
 
 type createAccountAccountDetail struct {
 	AccountID string `json:"accountId"`
+}
+
+// This method is used to create an account that can be linked (createLink) to an individual party
+// (createParty) or an entity (createEntity).
+//
+// Reference: https://transactapi.readme.io/reference/createaccount
+func (c *Client) CreateAccount(req CreateAccountRequest) (CreateAccountResponse, error) {
+	return PostRequest[CreateAccountResponse](c.ctx, "/createAccount", &req)
 }

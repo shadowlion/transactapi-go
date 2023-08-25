@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetExternalAccountRequest struct {
 	ClientID        string `json:"clientID"`
@@ -21,4 +21,9 @@ type statusDesc struct {
 	AccountType          string `json:"accountType"`
 	UpdatedDate          string `json:"updatedDate"`
 	CreatedDate          string `json:"createdDate"`
+}
+
+// Reference: https://transactapi.readme.io/reference/getexternalaccount
+func (c *Client) GetExternalAccount(req GetExternalAccountRequest) (GetExternalAccountResponse, error) {
+	return PostRequest[GetExternalAccountResponse](c.ctx, "/getExternalAccount", &req)
 }

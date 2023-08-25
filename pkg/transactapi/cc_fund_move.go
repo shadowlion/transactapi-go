@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type CCFundMoveRequest struct {
 	ClientID         string `json:"clientID"`
@@ -22,4 +22,17 @@ type transactionDetails struct {
 	Ccreferencenumber string `json:"ccreferencenumber"`
 	FundStatus        string `json:"fundStatus"`
 	Transactionstatus string `json:"transactionstatus"`
+}
+
+// Online Credit Card Transaction
+//
+// This Method has third party fees associated with it that will be charged for each use. This
+// method is used to perform an online credit card transaction. Transactions are batch processed
+// each business day at 6pm ET.
+//
+// The maximum amount per transaction is $5,000.00.
+//
+// Reference: https://transactapi.readme.io/reference/ccfundmove
+func (c *Client) CCFundMove(req CCFundMoveRequest) (CCFundMoveResponse, error) {
+	return PostRequest[CCFundMoveResponse](c.ctx, "/ccFundMove", &req)
 }

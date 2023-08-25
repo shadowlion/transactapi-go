@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type CreateTradeRequest struct {
 	ClientID         string `json:"clientID"`
@@ -33,4 +33,14 @@ type purchaseDetailClass struct {
 type purchaseDetailUnion struct {
 	Bool                     *bool
 	PurchaseDetailClassArray []purchaseDetailClass
+}
+
+// This method is used to create a trade/investment for an offering. This requires Account ID and
+// the total number of units/shares to be purchased by the account. Creating a trade represents the
+// intention to invest and does NOT initiate any sort of fund move. To initiate an ACH transfer for
+// a trade, you will need to use the externalFundMove method.
+//
+// Reference: https://transactapi.readme.io/reference/createtrade
+func (c *Client) CreateTrade(req CreateTradeRequest) (CreateTradeResponse, error) {
+	return PostRequest[CreateTradeResponse](c.ctx, "/createTrade", &req)
 }

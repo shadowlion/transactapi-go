@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetTradeStatusesForOfferingRequest struct {
 	ClientID        string `json:"clientID"`
@@ -27,4 +27,11 @@ type offeringPurchasedDetail struct {
 	Field2                  string `json:"field2"`
 	Field3                  string `json:"field3"`
 	EsignStatus             string `json:"esignStatus"`
+}
+
+// Returns an array of trade IDs and current trade statuses associated with a specific Offering ID.
+//
+// Reference: https://transactapi.readme.io/reference/gettradestatusesforoffering
+func (c *Client) GetTradeStatusesForOffering(req GetTradeStatusesForOfferingRequest) (GetTradeStatusesForOfferingResponse, error) {
+	return PostRequest[GetTradeStatusesForOfferingResponse](c.ctx, "/getTradeStatusesForOffering", &req)
 }

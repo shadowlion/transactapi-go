@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type UpdateTradeTransactionTypeRequest struct {
 	ClientID        string `json:"clientID"`
@@ -25,4 +25,11 @@ type updateTradeTransactionTypetradeDetail struct {
 	TotalAmount     string `json:"totalAmount"`
 	TotalShares     string `json:"totalShares"`
 	OrderStatus     string `json:"orderStatus"`
+}
+
+// Update trade transaction type
+//
+// Reference: https://transactapi.readme.io/reference/updatetradetransactiontype
+func (c *Client) UpdateTradeTransactionType(req UpdateTradeTransactionTypeRequest) (UpdateTradeTransactionTypeResponse, error) {
+	return PostRequest[UpdateTradeTransactionTypeResponse](c.ctx, "/updateTradeTransactionType", &req)
 }

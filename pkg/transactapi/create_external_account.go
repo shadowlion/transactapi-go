@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type CreateExternalAccountRequest struct {
 	ClientID           string `json:"clientID"`
@@ -31,4 +31,13 @@ type externalAccountDetailClass struct {
 	ExtAccountnumber   string `json:"ExtAccountnumber"`
 	AccountType        string `json:"accountType"`
 	Types              string `json:"types"`
+}
+
+// This method is used to add information to an Account (createAccount) for an external bank
+// account which an ACH transfer can be initiated from. Only one external account can be created
+// for an account. External accounts can have funds debited from them (externalFundMove).
+//
+// Reference: https://transactapi.readme.io/reference/createexternalaccount
+func (c *Client) CreateExternalAccount(req CreateExternalAccountRequest) (CreateExternalAccountResponse, error) {
+	return PostRequest[CreateExternalAccountResponse](c.ctx, "/createExternalAccount", &req)
 }

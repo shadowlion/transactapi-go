@@ -1,4 +1,4 @@
-package endpoints
+package transactapi
 
 type GetTradeDocumentRequest struct {
 	ClientID        string `json:"clientID"`
@@ -20,4 +20,9 @@ type documentDetail struct {
 	DocumentFileReferenceCode string `json:"documentFileReferenceCode"`
 	CreatedDate               string `json:"createdDate"`
 	DocumentURL               string `json:"documentUrl"`
+}
+
+// Reference: https://transactapi.readme.io/reference/gettradedocument
+func (c *Client) GetTradeDocument(req GetTradeDocumentRequest) (GetTradeDocumentResponse, error) {
+	return PostRequest[GetTradeDocumentResponse](c.ctx, "/getTradeDocument", &req)
 }
