@@ -1,9 +1,75 @@
 package transactapi
 
-import "testing"
+import (
+	"testing"
+)
 
-// TestGetCreditCardTypeSuccess calls utils.GetCreditCardType with a card number, checking
-// for a valid return value.
+func TestPrefix(t *testing.T) {
+	type TestCase struct {
+		have Client
+		want string
+	}
+
+	testCases := []TestCase{
+		{
+			have: Client{
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         true,
+			},
+			want: "api-sandboxdash",
+		},
+		{
+			have: Client{
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         false,
+			},
+			want: "api",
+		},
+	}
+
+	for _, tc := range testCases {
+		have := tc.have.getPrefix()
+		if have != tc.want {
+			t.Fatalf("Have: %s, Want: %s", have, tc.want)
+		}
+	}
+}
+
+func TestBaseUrl(t *testing.T) {
+	type TestCase struct {
+		have Client
+		want string
+	}
+
+	testCases := []TestCase{
+		{
+			have: Client{
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         true,
+			},
+			want: "https://api-sandboxdash.norcapsecurities.com/tapiv3/index.php/v3",
+		},
+		{
+			have: Client{
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         false,
+			},
+			want: "https://api.norcapsecurities.com/tapiv3/index.php/v3",
+		},
+	}
+
+	for _, tc := range testCases {
+		have := tc.have.baseUrl()
+		if have != tc.want {
+			t.Fatalf("Have: %s, Want: %s", have, tc.want)
+		}
+	}
+}
+
 func TestGetCreditCardTypeSuccess(t *testing.T) {
 	numbers := []string{
 		"4111111111111111",
