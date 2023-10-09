@@ -1,10 +1,6 @@
-package transactapi_test
+package transactapi
 
-import (
-	"testing"
-
-	"github.com/shadowlion/transactapi-go/pkg/transactapi"
-)
+import "testing"
 
 // TestGetCreditCardTypeSuccess calls utils.GetCreditCardType with a card number, checking
 // for a valid return value.
@@ -22,7 +18,7 @@ func TestGetCreditCardTypeSuccess(t *testing.T) {
 	for i := 0; i < len(numbers); i++ {
 		have := numbers[i]
 		want := wanted[i]
-		cardType, err := transactapi.GetCreditCardType(have)
+		cardType, err := GetCreditCardType(have)
 		if err != nil {
 			t.Fatalf("GetCreditCardType('%s') error: %s", have, err)
 		}
