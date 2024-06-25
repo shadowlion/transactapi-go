@@ -13,24 +13,24 @@ func TestPrefix(t *testing.T) {
 	testCases := []TestCase{
 		{
 			have: Client{
-				clientID:        "",
-				developerAPIKey: "",
-				sandbox:         true,
+				ClientID:        "",
+				DeveloperAPIKey: "",
+				Sandbox:         true,
 			},
-			want: "api-sandboxdash",
+			want: "api-Sandboxdash",
 		},
 		{
 			have: Client{
-				clientID:        "",
-				developerAPIKey: "",
-				sandbox:         false,
+				ClientID:        "",
+				DeveloperAPIKey: "",
+				Sandbox:         false,
 			},
 			want: "api",
 		},
 	}
 
 	for _, tc := range testCases {
-		have := tc.have.getPrefix()
+		have := tc.have.subdomain()
 		if have != tc.want {
 			t.Fatalf("Have: %s, Want: %s", have, tc.want)
 		}
@@ -46,24 +46,24 @@ func TestBaseUrl(t *testing.T) {
 	testCases := []TestCase{
 		{
 			have: Client{
-				clientID:        "",
-				developerAPIKey: "",
-				sandbox:         true,
+				ClientID:        "",
+				DeveloperAPIKey: "",
+				Sandbox:         true,
 			},
-			want: "https://api-sandboxdash.norcapsecurities.com/tapiv3/index.php/v3",
+			want: "https://api-Sandboxdash.norcapsecurities.com/tapiv3/index.php/v3",
 		},
 		{
 			have: Client{
-				clientID:        "",
-				developerAPIKey: "",
-				sandbox:         false,
+				ClientID:        "",
+				DeveloperAPIKey: "",
+				Sandbox:         false,
 			},
 			want: "https://api.norcapsecurities.com/tapiv3/index.php/v3",
 		},
 	}
 
 	for _, tc := range testCases {
-		have := tc.have.baseUrl()
+		have := tc.have.subdomain()
 		if have != tc.want {
 			t.Fatalf("Have: %s, Want: %s", have, tc.want)
 		}

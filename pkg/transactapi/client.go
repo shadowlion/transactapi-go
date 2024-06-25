@@ -1,27 +1,22 @@
 package transactapi
 
 import (
-	"context"
 	"net/http"
 )
 
 type Client struct {
-	ctx             *context.Context
-	httpClient      *http.Client
-	clientID        string
-	developerAPIKey string
-	sandbox         bool
+	HttpClient      *http.Client
+	ClientID        string
+	DeveloperAPIKey string
+	Sandbox         bool
 }
 
 // Create a new instance of the Transact API client struct
-func New(clientId, developerApiKey string, sandbox bool) *Client {
-	ctx := context.Background()
-
+func NewClient(clientId, developerApiKey string, sandbox bool) *Client {
 	return &Client{
-		ctx:             &ctx,
-		httpClient:      &http.Client{},
-		clientID:        clientId,
-		developerAPIKey: developerApiKey,
-		sandbox:         sandbox,
+		HttpClient:      &http.Client{},
+		ClientID:        clientId,
+		DeveloperAPIKey: developerApiKey,
+		Sandbox:         sandbox,
 	}
 }

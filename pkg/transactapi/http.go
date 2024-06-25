@@ -2,68 +2,48 @@ package transactapi
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
-	"io"
 	"net/http"
 )
 
-func GetRequest[T any](ctx *context.Context, url string) (T, error) {
-	var m T
-	r, err := http.NewRequestWithContext(*ctx, http.MethodGet, url, nil)
-	if err != nil {
-		return m, err
-	}
-	res, err := http.DefaultClient.Do(r)
-	if err != nil {
-		return m, err
-	}
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return m, err
-	}
-	return parseJSON[T](body)
+// ErrorResponse is the standard shape of the json object that gets returned to us when
+// we make an API call, but comes back with a (although status code 200) error shape.
+type ErrorResponse struct {
+	StatusCode        string `json:"statusCode"`
+	StatusDescription string `json:"statusDesc"`
 }
 
-func PostRequest[T any](ctx *context.Context, url string, data any) (T, error) {
-	var m T
-	b, err := toJSON(data)
+// request parses a payload struct to json, sends the http request, then conforms the response body
+// to either an ok response shape that's determined at runtime, an error shape if the error is from
+// North Capital's server side, or an error related to the conforming to either shape.
+func request[Req, Res interface{}](client *http.Client, method, url string, payload *Req) (*Res, *ErrorResponse, error) {
+	rb, err := json.Marshal(payload)
 	if err != nil {
-		return m, err
+		return nil, nil, err
 	}
-	byteReader := bytes.NewReader(b)
-	r, err := http.NewRequestWithContext(*ctx, http.MethodPost, url, byteReader)
-	if err != nil {
-		return m, err
-	}
-	// Important to set
-	r.Header.Add("Content-Type", "application/json")
-	res, err := http.DefaultClient.Do(r)
-	if err != nil {
-		return m, err
-	}
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
-	if err != nil {
-		return m, err
-	}
-	return parseJSON[T](body)
-}
 
-func parseJSON[T any](s []byte) (T, error) {
-	var r T
-	if err := json.Unmarshal(s, &r); err != nil {
-		return r, err
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(rb))
+	if err != nil {
+		return nil, nil, err
 	}
-	return r, nil
-}
 
-func toJSON(T any) ([]byte, error) {
-	return json.Marshal(T)
-}
+	req.Header.Set("Content-Type", "application/json")
 
-type BaseRequest struct {
-	ClientID        string `json:"clientID"`
-	DeveloperAPIKey string `json:"developerAPIKey"`
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	defer resp.Body.Close()
+
+	var okResp Res
+	var errResponse ErrorResponse
+
+	if err := json.NewDecoder(resp.Body).Decode(&okResp); err != nil {
+		if err := json.NewDecoder(resp.Body).Decode(&errResponse); err != nil {
+			return nil, nil, err
+		}
+		return nil, &errResponse, nil
+	}
+	return &okResp, nil, nil
 }
