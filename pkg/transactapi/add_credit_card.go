@@ -1,7 +1,13 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type AddCreditCardRequest struct {
-	BaseRequest
+	ClientID         string `json:"clientID"`
+	DeveloperAPIKey  string `json:"developerAPIKey"`
 	AccountID        string `json:"accountId"`
 	CreditCardName   string `json:"creditCardName"`
 	CreditCardNumber string `json:"creditCardNumber"`
@@ -17,10 +23,11 @@ type AddCreditCardResponse struct {
 	CreditCardDetails string `json:"creditcardDetails"`
 }
 
-// This method is used to save a credit card to an Account (createAccount). Only one credit card
-// can be added for an account.
+// AddCreditCard is used to save a credit card to an Account (createAccount).
+//
+// Only one credit card can be added for each account.
 //
 // Reference: https://transactapi.readme.io/reference/addcreditcard
-func (c *Client) AddCreditCard(req *AddCreditCardRequest) (AddCreditCardResponse, error) {
-	return PostRequest[AddCreditCardResponse](c.ctx, "/addCreditCard", &req)
+func (c *Client) AddCreditCard(req *AddCreditCardRequest) (*AddCreditCardResponse, *ErrorResponse, error) {
+	return request[AddCreditCardRequest, AddCreditCardResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointAddCreditCard), req)
 }
