@@ -1,7 +1,8 @@
 package transactapi
 
 const (
-	EndpointAddCreditCard = "/addCreditCard"
-	EndpointCCFundMove    = "/ccFundMove"
-	EndpointCreateAccount = "/createAccount"
+	EndpointAddCreditCard         = "/addCreditCard"
+	EndpointCCFundMove            = "/ccFundMove"
+	EndpointCreateAccount         = "/createAccount"
+	EndpointCreateExternalAccount = "/createExternalAccount"
 )

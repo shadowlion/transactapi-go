@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type CreateExternalAccountRequest struct {
 	ClientID           string `json:"clientID"`
 	DeveloperAPIKey    string `json:"developerAPIKey"`
@@ -38,6 +43,6 @@ type externalAccountDetailClass struct {
 // for an account. External accounts can have funds debited from them (externalFundMove).
 //
 // Reference: https://transactapi.readme.io/reference/createexternalaccount
-func (c *Client) CreateExternalAccount(req CreateExternalAccountRequest) (CreateExternalAccountResponse, error) {
-	return PostRequest[CreateExternalAccountResponse](c.ctx, "/createExternalAccount", &req)
+func (c *Client) CreateExternalAccount(req *CreateExternalAccountRequest) (*CreateExternalAccountResponse, *ErrorResponse, error) {
+	return request[CreateExternalAccountRequest, CreateExternalAccountResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateExternalAccount), req)
 }
