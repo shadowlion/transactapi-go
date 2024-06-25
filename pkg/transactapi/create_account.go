@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type CreateAccountRequest struct {
 	ClientID              string `json:"clientID"`
 	DeveloperAPIKey       string `json:"developerAPIKey"`
@@ -54,6 +59,6 @@ type createAccountAccountDetail struct {
 // (createParty) or an entity (createEntity).
 //
 // Reference: https://transactapi.readme.io/reference/createaccount
-func (c *Client) CreateAccount(req CreateAccountRequest) (CreateAccountResponse, error) {
-	return PostRequest[CreateAccountResponse](c.ctx, "/createAccount", &req)
+func (c *Client) CreateAccount(req *CreateAccountRequest) (*CreateAccountResponse, *ErrorResponse, error) {
+	return request[CreateAccountRequest, CreateAccountResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateAccount), req)
 }
