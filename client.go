@@ -4,7 +4,17 @@ import "net/http"
 
 type Client struct {
 	httpClient      *http.Client
-	clientID        string
-	developerAPIKey string
-	sandbox         bool
+	ClientID        string
+	DeveloperAPIKey string
+	Sandbox         bool
+}
+
+// NewClient returns an instance of a client used to run Transact API calls.
+func NewClient(clientID, developerAPIKey string, sandbox bool) *Client {
+	return &Client{
+		httpClient:      &http.Client{},
+		ClientID:        clientID,
+		DeveloperAPIKey: developerAPIKey,
+		Sandbox:         sandbox,
+	}
 }
