@@ -44,5 +44,5 @@ type externalAccountDetailClass struct {
 //
 // Reference: https://transactapi.readme.io/reference/createexternalaccount
 func (c *Client) CreateExternalAccount(req *CreateExternalAccountRequest) (*CreateExternalAccountResponse, *ErrorResponse, error) {
-	return request[CreateExternalAccountRequest, CreateExternalAccountResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateExternalAccount), req)
+	return request[CreateExternalAccountRequest, CreateExternalAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateExternalAccount), req)
 }

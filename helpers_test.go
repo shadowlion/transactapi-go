@@ -13,17 +13,17 @@ func TestPrefix(t *testing.T) {
 	testCases := []TestCase{
 		{
 			have: Client{
-				ClientID:        "",
-				DeveloperAPIKey: "",
-				Sandbox:         true,
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         true,
 			},
-			want: "api-Sandboxdash",
+			want: "api-sandboxdash",
 		},
 		{
 			have: Client{
-				ClientID:        "",
-				DeveloperAPIKey: "",
-				Sandbox:         false,
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         false,
 			},
 			want: "api",
 		},
@@ -46,17 +46,17 @@ func TestBaseUrl(t *testing.T) {
 	testCases := []TestCase{
 		{
 			have: Client{
-				ClientID:        "",
-				DeveloperAPIKey: "",
-				Sandbox:         true,
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         true,
 			},
-			want: "https://api-Sandboxdash.norcapsecurities.com/tapiv3/index.php/v3",
+			want: "https://api-sandboxdash.norcapsecurities.com/tapiv3/index.php/v3",
 		},
 		{
 			have: Client{
-				ClientID:        "",
-				DeveloperAPIKey: "",
-				Sandbox:         false,
+				clientID:        "",
+				developerAPIKey: "",
+				sandbox:         false,
 			},
 			want: "https://api.norcapsecurities.com/tapiv3/index.php/v3",
 		},

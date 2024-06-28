@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type UpdateAccountRequest struct {
 	ClientID              string `json:"clientID"`
 	DeveloperAPIKey       string `json:"developerAPIKey"`
@@ -53,10 +58,9 @@ type updateAccountAccountDetail struct {
 	ApprovalStatus   string `json:"approvalStatus"`
 }
 
-// TODO
 // This method is used to update a specific account (updateAccount)
 //
 // Reference: https://transactapi.readme.io/reference/updateaccount
-// func (c *Client) UpdateAccount(req UpdateAccountRequest) (UpdateAccountResponse, error) {
-// 	return basePutRequest[UpdateAccountResponse](c.ctx, "/updateAccount", &req)
-// }
+func (c *Client) UpdateAccount(req *UpdateAccountRequest) (*UpdateAccountResponse, *ErrorResponse, error) {
+	return request[UpdateAccountRequest, UpdateAccountResponse](c.httpClient, http.MethodPut, fmt.Sprintf("%s%s", c.baseURL(), EndpointUpdateAccount), req)
+}

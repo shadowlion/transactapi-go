@@ -8,7 +8,7 @@ import (
 
 // Function subdomain returns a string based on a conditional sandbox environment
 func (c *Client) subdomain() string {
-	if c.Sandbox {
+	if c.sandbox {
 		return "api-sandboxdash"
 	}
 	return "api"

@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetOfferingRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -38,6 +43,6 @@ type offeringDetail struct {
 // the information.
 //
 // Reference: https://transactapi.readme.io/reference/getoffering
-func (c *Client) GetOffering(req GetOfferingRequest) (GetOfferingResponse, error) {
-	return PostRequest[GetOfferingResponse](c.ctx, "/getOffering", &req)
+func (c *Client) GetOffering(req *GetOfferingRequest) (*GetOfferingResponse, *ErrorResponse, error) {
+	return request[GetOfferingRequest, GetOfferingResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetOffering), req)
 }

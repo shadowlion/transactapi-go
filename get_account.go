@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetAccountRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -55,6 +60,6 @@ type accountDetails struct {
 // This method is used to get all information for an account (createAccount).
 //
 // Reference: https://transactapi.readme.io/reference/getaccount
-func (c *Client) GetAccount(req GetAccountRequest) (GetAccountResponse, error) {
-	return PostRequest[GetAccountResponse](c.ctx, "/getAccount", &req)
+func (c *Client) GetAccount(req *GetAccountRequest) (*GetAccountResponse, *ErrorResponse, error) {
+	return request[GetAccountRequest, GetAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetAccount), req)
 }

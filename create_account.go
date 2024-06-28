@@ -60,5 +60,5 @@ type createAccountAccountDetail struct {
 //
 // Reference: https://transactapi.readme.io/reference/createaccount
 func (c *Client) CreateAccount(req *CreateAccountRequest) (*CreateAccountResponse, *ErrorResponse, error) {
-	return request[CreateAccountRequest, CreateAccountResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateAccount), req)
+	return request[CreateAccountRequest, CreateAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateAccount), req)
 }

@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetCreditCardRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -20,10 +25,9 @@ type creditcardDetails struct {
 	CvvNumber        string `json:"cvvNumber"`
 }
 
-// This method is used to retrieve the credit card information that was previously saved to a
-// specific account.
+// This method is used to retrieve the credit card information that was previously saved to a specific account.
 //
 // Reference: https://transactapi.readme.io/reference/getcreditcard
-func (c *Client) GetCreditCard(req GetCreditCardRequest) (GetCreditCardResponse, error) {
-	return PostRequest[GetCreditCardResponse](c.ctx, "/getCreditCard", &req)
+func (c *Client) GetCreditCard(req *GetCreditCardRequest) (*GetCreditCardResponse, *ErrorResponse, error) {
+	return request[GetCreditCardRequest, GetCreditCardResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetCreditCard), req)
 }

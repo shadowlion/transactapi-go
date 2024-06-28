@@ -1,6 +1,6 @@
 package transactapi
 
-type TransactApiError struct {
+type ErrorResponse struct {
 	StatusCode        string `json:"statusCode"`
 	StatusDescription string `json:"statusDesc"`
 }

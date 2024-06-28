@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetTradeDocumentRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -23,6 +28,6 @@ type documentDetail struct {
 }
 
 // Reference: https://transactapi.readme.io/reference/gettradedocument
-func (c *Client) GetTradeDocument(req GetTradeDocumentRequest) (GetTradeDocumentResponse, error) {
-	return PostRequest[GetTradeDocumentResponse](c.ctx, "/getTradeDocument", &req)
+func (c *Client) GetTradeDocument(req *GetTradeDocumentRequest) (*GetTradeDocumentResponse, *ErrorResponse, error) {
+	return request[GetTradeDocumentRequest, GetTradeDocumentResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetTradeDocument), req)
 }

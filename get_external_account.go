@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetExternalAccountRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -24,6 +29,6 @@ type statusDesc struct {
 }
 
 // Reference: https://transactapi.readme.io/reference/getexternalaccount
-func (c *Client) GetExternalAccount(req GetExternalAccountRequest) (GetExternalAccountResponse, error) {
-	return PostRequest[GetExternalAccountResponse](c.ctx, "/getExternalAccount", &req)
+func (c *Client) GetExternalAccount(req *GetExternalAccountRequest) (*GetExternalAccountResponse, *ErrorResponse, error) {
+	return request[GetExternalAccountRequest, GetExternalAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetExternalAccount), req)
 }

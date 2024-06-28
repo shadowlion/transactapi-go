@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetTradesForOfferingRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -30,6 +35,6 @@ type offeringPurchaseHistory struct {
 // history.
 //
 // Reference: https://transactapi.readme.io/reference/gettradesforoffering
-func (c *Client) GetTradesForOffering(req GetTradesForOfferingRequest) (GetTradesForOfferingResponse, error) {
-	return PostRequest[GetTradesForOfferingResponse](c.ctx, "/getTradesForOffering", &req)
+func (c *Client) GetTradesForOffering(req *GetTradesForOfferingRequest) (*GetTradesForOfferingResponse, *ErrorResponse, error) {
+	return request[GetTradesForOfferingRequest, GetTradesForOfferingResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetTradesForOffering), req)
 }

@@ -29,5 +29,5 @@ type AddCreditCardResponse struct {
 //
 // Reference: https://transactapi.readme.io/reference/addcreditcard
 func (c *Client) AddCreditCard(req *AddCreditCardRequest) (*AddCreditCardResponse, *ErrorResponse, error) {
-	return request[AddCreditCardRequest, AddCreditCardResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointAddCreditCard), req)
+	return request[AddCreditCardRequest, AddCreditCardResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointAddCreditCard), req)
 }

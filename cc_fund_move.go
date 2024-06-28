@@ -39,5 +39,5 @@ type transactionDetails struct {
 //
 // Reference: https://transactapi.readme.io/reference/ccfundmove
 func (c *Client) CCFundMove(req *CCFundMoveRequest) (*CCFundMoveResponse, *ErrorResponse, error) {
-	return request[CCFundMoveRequest, CCFundMoveResponse](c.HttpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCCFundMove), req)
+	return request[CCFundMoveRequest, CCFundMoveResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCCFundMove), req)
 }

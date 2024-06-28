@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type ExternalFundMoveRequest struct {
 	ClientID         string `json:"clientID"`
 	DeveloperAPIKey  string `json:"developerAPIKey"`
@@ -29,6 +34,6 @@ type tradeFinancialDetail struct {
 }
 
 // Reference: https://transactapi.readme.io/reference/externalfundmove
-func (c *Client) ExternalFundMove(req ExternalFundMoveRequest) (ExternalFundMoveResponse, error) {
-	return PostRequest[ExternalFundMoveResponse](c.ctx, "/externalFundMove", &req)
+func (c *Client) ExternalFundMove(req *ExternalFundMoveRequest) (*ExternalFundMoveResponse, *ErrorResponse, error) {
+	return request[ExternalFundMoveRequest, ExternalFundMoveResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointExternalFundMove), req)
 }

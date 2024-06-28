@@ -1,5 +1,10 @@
 package transactapi
 
+import (
+	"fmt"
+	"net/http"
+)
+
 type GetPartyRequest struct {
 	ClientID        string `json:"clientID"`
 	DeveloperApiKey string `json:"developerAPIKey"`
@@ -53,10 +58,10 @@ type partyDetail struct {
 	Field3                 string `json:"field3"`
 }
 
-// This method is used to get all information about an individual Party. The Party ID must be
-// specified as a request parameter to get the party information.
+// This method is used to get all information about an individual Party. The Party ID must be specified as a request
+// parameter to get the party information.
 //
 // Reference: https://transactapi.readme.io/reference/getparty
-func (c *Client) GetParty(req GetPartyRequest) (GetPartyResponse, error) {
-	return PostRequest[GetPartyResponse](c.ctx, "/getParty", &req)
+func (c *Client) GetParty(req *GetPartyRequest) (*GetPartyResponse, *ErrorResponse, error) {
+	return request[GetPartyRequest, GetPartyResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetParty), req)
 }
