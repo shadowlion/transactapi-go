@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -46,6 +45,6 @@ type purchaseDetailUnion struct {
 // a trade, you will need to use the externalFundMove method.
 //
 // Reference: https://transactapi.readme.io/reference/createtrade
-func (c *Client) CreateTrade(req *CreateTradeRequest) (*CreateTradeResponse, *ErrorResponse, error) {
-	return request[CreateTradeRequest, CreateTradeResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateExternalAccount), req)
+func (c *Client) CreateTrade(req *CreateTradeRequest) (*CreateTradeResponse, error) {
+	return request[CreateTradeRequest, CreateTradeResponse](c, http.MethodPost, EndpointCreateExternalAccount, req)
 }

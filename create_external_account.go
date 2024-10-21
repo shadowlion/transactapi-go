@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -43,6 +42,6 @@ type externalAccountDetailClass struct {
 // for an account. External accounts can have funds debited from them (externalFundMove).
 //
 // Reference: https://transactapi.readme.io/reference/createexternalaccount
-func (c *Client) CreateExternalAccount(req *CreateExternalAccountRequest) (*CreateExternalAccountResponse, *ErrorResponse, error) {
-	return request[CreateExternalAccountRequest, CreateExternalAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateExternalAccount), req)
+func (c *Client) CreateExternalAccount(req *CreateExternalAccountRequest) (*CreateExternalAccountResponse, error) {
+	return request[CreateExternalAccountRequest, CreateExternalAccountResponse](c, http.MethodPost, EndpointCreateExternalAccount, req)
 }

@@ -3,6 +3,7 @@ package transactapi
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 )
 
@@ -24,40 +25,50 @@ func do(client *http.Client, req *http.Request) (*http.Response, error) {
 }
 
 // parseResponse conforms the response body to one of three elements: an okay response, the
-// standard error response given in the documentation, or an error related to creating the request.
-func parseResponse[Res interface{}](resp *http.Response) (*Res, *ErrorResponse, error) {
+// standard error response given in the documentation, or an api error returned from Transact API
+// (contained within the error handling code).
+func parseResponse[OkResponse interface{}](resp *http.Response) (*OkResponse, error) {
 	defer resp.Body.Close()
 
-	var okResp Res
-	var errResponse ErrorResponse
-
-	if err := json.NewDecoder(resp.Body).Decode(&okResp); err != nil {
-		if err := json.NewDecoder(resp.Body).Decode(&errResponse); err != nil {
-			return nil, nil, err
-		}
-		return nil, &errResponse, nil
+	// Since resp.Body gets used up if we conform it to a struct, we first need to
+	// copy it to a different variable to be "re-used" (for the error struct handling)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
 	}
 
-	return &okResp, nil, nil
+	if resp.StatusCode == http.StatusOK {
+		var okResp OkResponse
+		if err := json.Unmarshal(body, &okResp); err != nil {
+			return nil, err
+		}
+		return &okResp, nil
+	} else {
+		var errResp ErrorResponse
+		if err := json.Unmarshal(body, &errResp); err != nil {
+			return nil, err
+		}
+		return nil, &errResp
+	}
 }
 
 // request creates a generic http request that includes a payload
 // (for our purposes here, we're mainly focused on GET, POST, and PATCH)
-func request[Req, Res interface{}](client *http.Client, method, url string, payload *Req) (*Res, *ErrorResponse, error) {
+func request[Request, Response interface{}](client *Client, method, endpoint string, payload *Request) (*Response, error) {
 	rb, err := json.Marshal(payload)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	req, err := makeRequestBody(method, url, rb)
+	req, err := makeRequestBody(method, client.formatURL(endpoint), rb)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	resp, err := do(client, req)
+	resp, err := do(client.httpClient, req)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	return parseResponse[Res](resp)
+	return parseResponse[Response](resp)
 }

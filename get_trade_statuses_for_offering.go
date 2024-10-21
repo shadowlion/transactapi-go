@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -37,6 +36,6 @@ type offeringPurchasedDetail struct {
 // Returns an array of trade IDs and current trade statuses associated with a specific Offering ID.
 //
 // Reference: https://transactapi.readme.io/reference/gettradestatusesforoffering
-func (c *Client) GetTradeStatusesForOffering(req *GetTradeStatusesForOfferingRequest) (*GetTradeStatusesForOfferingResponse, *ErrorResponse, error) {
-	return request[GetTradeStatusesForOfferingRequest, GetTradeStatusesForOfferingResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetTradeStatusesForOffering), req)
+func (c *Client) GetTradeStatusesForOffering(req *GetTradeStatusesForOfferingRequest) (*GetTradeStatusesForOfferingResponse, error) {
+	return request[GetTradeStatusesForOfferingRequest, GetTradeStatusesForOfferingResponse](c, http.MethodPost, EndpointGetTradeStatusesForOffering, req)
 }

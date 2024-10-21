@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -38,6 +37,6 @@ type transactionDetails struct {
 // The maximum amount per transaction is $5,000.00.
 //
 // Reference: https://transactapi.readme.io/reference/ccfundmove
-func (c *Client) CCFundMove(req *CCFundMoveRequest) (*CCFundMoveResponse, *ErrorResponse, error) {
-	return request[CCFundMoveRequest, CCFundMoveResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCCFundMove), req)
+func (c *Client) CCFundMove(req *CCFundMoveRequest) (*CCFundMoveResponse, error) {
+	return request[CCFundMoveRequest, CCFundMoveResponse](c, http.MethodPost, EndpointCCFundMove, req)
 }

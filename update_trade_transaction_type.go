@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -35,6 +34,6 @@ type updateTradeTransactionTypetradeDetail struct {
 // Update trade transaction type
 //
 // Reference: https://transactapi.readme.io/reference/updatetradetransactiontype
-func (c *Client) UpdateTradeTransactionType(req *UpdateTradeTransactionTypeRequest) (*UpdateTradeTransactionTypeResponse, *ErrorResponse, error) {
-	return request[UpdateTradeTransactionTypeRequest, UpdateTradeTransactionTypeResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointUpdateTradeTransactionType), req)
+func (c *Client) UpdateTradeTransactionType(req *UpdateTradeTransactionTypeRequest) (*UpdateTradeTransactionTypeResponse, error) {
+	return request[UpdateTradeTransactionTypeRequest, UpdateTradeTransactionTypeResponse](c, http.MethodPost, EndpointUpdateTradeTransactionType, req)
 }

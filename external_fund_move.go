@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -34,6 +33,6 @@ type tradeFinancialDetail struct {
 }
 
 // Reference: https://transactapi.readme.io/reference/externalfundmove
-func (c *Client) ExternalFundMove(req *ExternalFundMoveRequest) (*ExternalFundMoveResponse, *ErrorResponse, error) {
-	return request[ExternalFundMoveRequest, ExternalFundMoveResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointExternalFundMove), req)
+func (c *Client) ExternalFundMove(req *ExternalFundMoveRequest) (*ExternalFundMoveResponse, error) {
+	return request[ExternalFundMoveRequest, ExternalFundMoveResponse](c, http.MethodPost, EndpointExternalFundMove, req)
 }

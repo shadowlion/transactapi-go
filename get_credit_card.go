@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -28,6 +27,6 @@ type creditcardDetails struct {
 // This method is used to retrieve the credit card information that was previously saved to a specific account.
 //
 // Reference: https://transactapi.readme.io/reference/getcreditcard
-func (c *Client) GetCreditCard(req *GetCreditCardRequest) (*GetCreditCardResponse, *ErrorResponse, error) {
-	return request[GetCreditCardRequest, GetCreditCardResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetCreditCard), req)
+func (c *Client) GetCreditCard(req *GetCreditCardRequest) (*GetCreditCardResponse, error) {
+	return request[GetCreditCardRequest, GetCreditCardResponse](c, http.MethodPost, EndpointGetCreditCard, req)
 }

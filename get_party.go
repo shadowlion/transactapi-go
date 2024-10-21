@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -62,6 +61,6 @@ type partyDetail struct {
 // parameter to get the party information.
 //
 // Reference: https://transactapi.readme.io/reference/getparty
-func (c *Client) GetParty(req *GetPartyRequest) (*GetPartyResponse, *ErrorResponse, error) {
-	return request[GetPartyRequest, GetPartyResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetParty), req)
+func (c *Client) GetParty(req *GetPartyRequest) (*GetPartyResponse, error) {
+	return request[GetPartyRequest, GetPartyResponse](c, http.MethodPost, EndpointGetParty, req)
 }

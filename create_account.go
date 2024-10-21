@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -59,6 +58,6 @@ type createAccountAccountDetail struct {
 // (createParty) or an entity (createEntity).
 //
 // Reference: https://transactapi.readme.io/reference/createaccount
-func (c *Client) CreateAccount(req *CreateAccountRequest) (*CreateAccountResponse, *ErrorResponse, error) {
-	return request[CreateAccountRequest, CreateAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointCreateAccount), req)
+func (c *Client) CreateAccount(req *CreateAccountRequest) (*CreateAccountResponse, error) {
+	return request[CreateAccountRequest, CreateAccountResponse](c, http.MethodPost, EndpointCreateAccount, req)
 }

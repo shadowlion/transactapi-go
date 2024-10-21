@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -29,6 +28,6 @@ type statusDesc struct {
 }
 
 // Reference: https://transactapi.readme.io/reference/getexternalaccount
-func (c *Client) GetExternalAccount(req *GetExternalAccountRequest) (*GetExternalAccountResponse, *ErrorResponse, error) {
-	return request[GetExternalAccountRequest, GetExternalAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetExternalAccount), req)
+func (c *Client) GetExternalAccount(req *GetExternalAccountRequest) (*GetExternalAccountResponse, error) {
+	return request[GetExternalAccountRequest, GetExternalAccountResponse](c, http.MethodPost, EndpointGetExternalAccount, req)
 }

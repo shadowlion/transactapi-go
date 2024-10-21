@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -26,6 +25,6 @@ type UpdateCreditCardResponse struct {
 // This method is used to update the credit card information that is saved to a specific account (createExternalAccount).
 //
 // Reference: https://transactapi.readme.io/reference/updatecreditcard
-func (c *Client) UpdateCreditCard(req *UpdateCreditCardRequest) (*UpdateCreditCardResponse, *ErrorResponse, error) {
-	return request[UpdateCreditCardRequest, UpdateCreditCardResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointUpdateCreditCard), req)
+func (c *Client) UpdateCreditCard(req *UpdateCreditCardRequest) (*UpdateCreditCardResponse, error) {
+	return request[UpdateCreditCardRequest, UpdateCreditCardResponse](c, http.MethodPost, EndpointUpdateCreditCard, req)
 }

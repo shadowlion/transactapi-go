@@ -14,15 +14,20 @@ func (c *Client) subdomain() string {
 	return "api"
 }
 
-// Function baseURL returns full api url, conditionally checking the prefix based on a possible
+// baseURL returns the base domain, conditionally checking the prefix based on a possible
 // sandbox environment.
 func (c *Client) baseURL() string {
 	return fmt.Sprintf("https://%s.norcapsecurities.com/tapiv3/index.php/v3", c.subdomain())
 }
 
-// Function GetCreditCardType uses regex to determine if the input number is either a VISA,
-// MASTERCARD, or DISCOVER. All other cards return an error, as they are non-compliant with North
-// Capital's transactions.
+// formatURL returns a full API url with its endpoint
+func (c *Client) formatURL(endpoint string) string {
+	return c.baseURL() + endpoint
+}
+
+// Function GetCreditCardType uses regex to determine if the input number is either a
+// VISA (VI), MASTERCARD (MC), or DISCOVER (DI) card.
+// All other cards return an error, as they are non-compliant with North Capital's transactions.
 func GetCreditCardType(cardNumber string) (string, error) {
 	visaRegex := regexp.MustCompile(`4\d{3}([-]?)\d{4}\d{4}\d{4}`)
 	mastercardRegex := regexp.MustCompile(`5[1-5]\d{2}([-]?)\d{4}\d{4}\d{4}`)

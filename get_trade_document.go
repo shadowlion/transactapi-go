@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -28,6 +27,6 @@ type documentDetail struct {
 }
 
 // Reference: https://transactapi.readme.io/reference/gettradedocument
-func (c *Client) GetTradeDocument(req *GetTradeDocumentRequest) (*GetTradeDocumentResponse, *ErrorResponse, error) {
-	return request[GetTradeDocumentRequest, GetTradeDocumentResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetTradeDocument), req)
+func (c *Client) GetTradeDocument(req *GetTradeDocumentRequest) (*GetTradeDocumentResponse, error) {
+	return request[GetTradeDocumentRequest, GetTradeDocumentResponse](c, http.MethodPost, EndpointGetTradeDocument, req)
 }

@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -20,6 +19,6 @@ type ValidateAbaRoutingNumberResponse struct {
 // This method is used to validate the routing number for an external account (createExternalAccount)
 //
 // Reference: https://transactapi.readme.io/reference/validateabaroutingnumber
-func (c *Client) ValidateABARoutingNumber(req *ValidateAbaRoutingNumberRequest) (*ValidateAbaRoutingNumberResponse, *ErrorResponse, error) {
-	return request[ValidateAbaRoutingNumberRequest, ValidateAbaRoutingNumberResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointValidateABARoutingNumber), req)
+func (c *Client) ValidateABARoutingNumber(req *ValidateAbaRoutingNumberRequest) (*ValidateAbaRoutingNumberResponse, error) {
+	return request[ValidateAbaRoutingNumberRequest, ValidateAbaRoutingNumberResponse](c, http.MethodPost, EndpointValidateABARoutingNumber, req)
 }

@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -42,6 +41,6 @@ type accountDetailUnion struct {
 // The Account ID must be specified as a request parameter to update the record.
 //
 // Reference: https://transactapi.readme.io/reference/updateexternalaccount
-func (c *Client) UpdateExternalAccount(req *UpdateExternalAccountRequest) (*UpdateExternalAccountResponse, *ErrorResponse, error) {
-	return request[UpdateExternalAccountRequest, UpdateExternalAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointUpdateExternalAccount), req)
+func (c *Client) UpdateExternalAccount(req *UpdateExternalAccountRequest) (*UpdateExternalAccountResponse, error) {
+	return request[UpdateExternalAccountRequest, UpdateExternalAccountResponse](c, http.MethodPost, EndpointUpdateExternalAccount, req)
 }

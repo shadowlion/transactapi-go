@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -61,6 +60,6 @@ type updateAccountAccountDetail struct {
 // This method is used to update a specific account (updateAccount)
 //
 // Reference: https://transactapi.readme.io/reference/updateaccount
-func (c *Client) UpdateAccount(req *UpdateAccountRequest) (*UpdateAccountResponse, *ErrorResponse, error) {
-	return request[UpdateAccountRequest, UpdateAccountResponse](c.httpClient, http.MethodPut, fmt.Sprintf("%s%s", c.baseURL(), EndpointUpdateAccount), req)
+func (c *Client) UpdateAccount(req *UpdateAccountRequest) (*UpdateAccountResponse, error) {
+	return request[UpdateAccountRequest, UpdateAccountResponse](c, http.MethodPut, EndpointUpdateAccount, req)
 }

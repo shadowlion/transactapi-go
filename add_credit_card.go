@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -28,6 +27,6 @@ type AddCreditCardResponse struct {
 // Only one credit card can be added for each account.
 //
 // Reference: https://transactapi.readme.io/reference/addcreditcard
-func (c *Client) AddCreditCard(req *AddCreditCardRequest) (*AddCreditCardResponse, *ErrorResponse, error) {
-	return request[AddCreditCardRequest, AddCreditCardResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointAddCreditCard), req)
+func (c *Client) AddCreditCard(req *AddCreditCardRequest) (*AddCreditCardResponse, error) {
+	return request[AddCreditCardRequest, AddCreditCardResponse](c, http.MethodPost, EndpointAddCreditCard, req)
 }

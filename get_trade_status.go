@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -45,6 +44,6 @@ type tradeDetail struct {
 // This method is used to get the current trade details as an array with the current trade status.
 //
 // Reference: https://transactapi.readme.io/reference/gettradestatus
-func (c *Client) GetTradeStatus(req *GetTradeStatusRequest) (*GetTradeStatusResponse, *ErrorResponse, error) {
-	return request[GetTradeStatusRequest, GetTradeStatusResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetTradeStatus), req)
+func (c *Client) GetTradeStatus(req *GetTradeStatusRequest) (*GetTradeStatusResponse, error) {
+	return request[GetTradeStatusRequest, GetTradeStatusResponse](c, http.MethodPost, EndpointGetTradeStatus, req)
 }

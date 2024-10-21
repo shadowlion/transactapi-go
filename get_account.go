@@ -1,7 +1,6 @@
 package transactapi
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -60,6 +59,6 @@ type accountDetails struct {
 // This method is used to get all information for an account (createAccount).
 //
 // Reference: https://transactapi.readme.io/reference/getaccount
-func (c *Client) GetAccount(req *GetAccountRequest) (*GetAccountResponse, *ErrorResponse, error) {
-	return request[GetAccountRequest, GetAccountResponse](c.httpClient, http.MethodPost, fmt.Sprintf("%s%s", c.baseURL(), EndpointGetAccount), req)
+func (c *Client) GetAccount(req *GetAccountRequest) (*GetAccountResponse, error) {
+	return request[GetAccountRequest, GetAccountResponse](c, http.MethodPost, EndpointGetAccount, req)
 }
