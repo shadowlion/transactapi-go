@@ -21,8 +21,8 @@ func (c *Client) baseURL() string {
 }
 
 // formatURL returns a full API url with its endpoint
-func (c *Client) formatURL(endpoint string) string {
-	return c.baseURL() + endpoint
+func (c *Client) formatURL(endpoint Endpoint) string {
+	return fmt.Sprintf("%s/%s", c.baseURL(), endpoint)
 }
 
 // Function GetCreditCardType uses regex to determine if the input number is either a

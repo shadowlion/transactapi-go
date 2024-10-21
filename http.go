@@ -54,7 +54,7 @@ func parseResponse[OkResponse interface{}](resp *http.Response) (*OkResponse, er
 
 // request creates a generic http request that includes a payload
 // (for our purposes here, we're mainly focused on GET, POST, and PATCH)
-func request[Request, Response interface{}](client *Client, method, endpoint string, payload *Request) (*Response, error) {
+func request[Request, Response interface{}](client *Client, method string, endpoint Endpoint, payload *Request) (*Response, error) {
 	rb, err := json.Marshal(payload)
 	if err != nil {
 		return nil, err
