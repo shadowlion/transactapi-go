@@ -60,7 +60,7 @@ func request[Request, Response interface{}](client *Client, method string, endpo
 		return nil, err
 	}
 
-	req, err := makeRequestBody(method, client.formatURL(endpoint), rb)
+	req, err := makeRequestBody(method, client.getURL(endpoint), rb)
 	if err != nil {
 		return nil, err
 	}

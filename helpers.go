@@ -6,23 +6,16 @@ import (
 	"regexp"
 )
 
-// Function subdomain returns a string based on a conditional sandbox environment
-func (c *Client) subdomain() string {
+// getURL returns the full url for any particular endpoint.
+func (c *Client) getURL(endpoint Endpoint) string {
+	var prefix string
 	if c.Sandbox {
-		return "api-sandboxdash"
+		prefix = "api-sandboxdash"
+	} else {
+		prefix = "api"
 	}
-	return "api"
-}
 
-// baseURL returns the base domain, conditionally checking the prefix based on a possible
-// sandbox environment.
-func (c *Client) baseURL() string {
-	return fmt.Sprintf("https://%s.norcapsecurities.com/tapiv3/index.php/v3", c.subdomain())
-}
-
-// formatURL returns a full API url with its endpoint
-func (c *Client) formatURL(endpoint Endpoint) string {
-	return fmt.Sprintf("%s/%s", c.baseURL(), endpoint)
+	return fmt.Sprintf("https://%s.norcapsecurities.com/tapiv3/index.php/v3/%s", prefix, endpoint)
 }
 
 // Function GetCreditCardType uses regex to determine if the input number is either a

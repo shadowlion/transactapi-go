@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestPrefix(t *testing.T) {
+func TestEndpoints(t *testing.T) {
 	type TestCase struct {
 		input Client
 		want  string
@@ -17,7 +17,7 @@ func TestPrefix(t *testing.T) {
 				DeveloperAPIKey: "",
 				Sandbox:         true,
 			},
-			want: "api-sandboxdash",
+			want: "https://api-sandboxdash.norcapsecurities.com/tapiv3/index.php/v3/createAccount",
 		},
 		{
 			input: Client{
@@ -25,45 +25,12 @@ func TestPrefix(t *testing.T) {
 				DeveloperAPIKey: "",
 				Sandbox:         false,
 			},
-			want: "api",
+			want: "https://api.norcapsecurities.com/tapiv3/index.php/v3/createAccount",
 		},
 	}
 
 	for _, tc := range testCases {
-		have := tc.input.subdomain()
-		if have != tc.want {
-			t.Fatalf("Have: %s, Want: %s", have, tc.want)
-		}
-	}
-}
-
-func TestBaseUrl(t *testing.T) {
-	type TestCase struct {
-		input Client
-		want  string
-	}
-
-	testCases := []TestCase{
-		{
-			input: Client{
-				ClientID:        "",
-				DeveloperAPIKey: "",
-				Sandbox:         true,
-			},
-			want: "https://api-sandboxdash.norcapsecurities.com/tapiv3/index.php/v3",
-		},
-		{
-			input: Client{
-				ClientID:        "",
-				DeveloperAPIKey: "",
-				Sandbox:         false,
-			},
-			want: "https://api.norcapsecurities.com/tapiv3/index.php/v3",
-		},
-	}
-
-	for _, tc := range testCases {
-		have := tc.input.baseURL()
+		have := tc.input.getURL(EndpointCreateAccount)
 		if have != tc.want {
 			t.Fatalf("Have: %s, Want: %s", have, tc.want)
 		}
